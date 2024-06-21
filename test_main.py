@@ -24,3 +24,13 @@ def test_predict_negative():
     json_data = response.json()
     assert response.status_code == 200
     assert json_data['label'] == 'NEGATIVE'
+
+
+def test_detailed_predict():
+    response = client.post("/detailed_predict/",
+                           json={"text": "I enjoy coding!"})
+    json_data = response.json()
+    assert response.status_code == 200
+    assert json_data['label'] in ['POSITIVE', 'NEGATIVE']
+    assert isinstance(json_data['score'], float)
+    assert json_data['text'] == "I enjoy coding!"
